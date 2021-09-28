@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import  HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from Tools.functions import Configure, Signup, Login, Logout, ChangeProfileImage, RemoveProfileImage, ChangeName, ChangePio, ChangePhone, ChangeEmail, SendMessageWithoutFilesOrImages, SendMessageWithImages, SendMessageWithFiles, getRooms, getChat, DeleteChat
-from pyqas import pyqas
+from Tools import pyqas
 from Tools import serliazier
 from datetime import datetime
 import json

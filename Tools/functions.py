@@ -1,7 +1,7 @@
 import sqlite3
 from django.http import JsonResponse
 from . import serliazier
-from pyqas import pyqas
+from . import pyqas
 from datetime import datetime
 db=sqlite3.connect("data.db", check_same_thread=False)
 cur=db.cursor()
