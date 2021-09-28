@@ -323,6 +323,15 @@ def getRooms(email) :
         profile_images=cur.execute("SELECT src FROM profile_images WHERE email=?", [item]).fetchall()
         msgs_res=cur.execute("SELECT content, year, month, day, hour, minute, second, email_sender, email_reciever, id, seen, email_to_see FROM messages WHERE email_sender=? AND email_reciever=? OR email_sender=? AND email_reciever=?", [email, item, item, email]).fetchall()
         res_images=cur.execute("SELECT * FROM images_for_message WHERE message_id=?", [msgs_res[-1][9]]).fetchall()
+        res_unseen_msgs=cur.execute("SELECT * FROM messages WHERE email_sender=? AND email_reciever=? AND seen=false", [item, email]).fetchall()
+        res_unseen_msgs_length=[]
+        try :
+            if len(res_unseen_msgs)>=1 :
+                res_unseen_msgs_length.append(len(res_unseen_msgs))
+            else :
+                res_unseen_msgs_length.append(0)
+        except :
+            res_unseen_msgs_length.append(0)
         if len(res_images)>=1 :
             data_res_json={
                 "name" :data_res[0][0],
@@ -340,7 +349,8 @@ def getRooms(email) :
                 "last_message_reciever" :msgs_res[-1][8],
                 "last_message_seen" :msgs_res[-1][10],
                 "last_message_email_to_see" :msgs_res[-1][11],
-                "last_message_id" :msgs_res[-1][9]
+                "last_message_id" :msgs_res[-1][9],
+                "unseen_messages_length" :res_unseen_msgs_length[0],
             }
             msgs_list.append(data_res_json)
         else :
@@ -361,6 +371,7 @@ def getRooms(email) :
                 "last_message_seen" :msgs_res[-1][10],
                 "last_message_email_to_see" :msgs_res[-1][11],
                 "last_message_id" :msgs_res[-1][9],
+                "unseen_messages_length" :res_unseen_msgs_length[0],
             }
             msgs_list.append(data_res_json)
     return JsonResponse(msgs_list, safe=False)
