@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from pyqas import pyqas
+from . import pyqas
 def SerliazeprofileData(main_data, profile_data_image) :
     lst_profile_images=[]
     for item in pyqas.Reverse_Lst(profile_data_image) :
